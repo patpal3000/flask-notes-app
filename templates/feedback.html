@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Feedback Form</title>
+    </head>
+    <body>
+        <!-- Task 6 -->
+        <h1>feedback form</h1>
+        <form method="POST">
+            <input name="message" placeholder="Type feedback">
+            <button type="submit">Send</button>
+        </form>
+
+        {% if respone %}
+        <p> your feedback: {{ respone }}</p>
+        {% endif %}
+        <a href="/">home</a>
+    </body>
+</html>

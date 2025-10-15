@@ -43,6 +43,7 @@ def feedback():
     if request.method == "POST":
         message = request.form["message"]
         return render_template("feedback.html", respone=message)
+    return render_template("feedback.html", respone=None)
 
 if __name__ == "__main__":
     app.run(debug=True)
