@@ -22,5 +22,20 @@ def submit():
     name = request.form["username"]
     return render_template("thanks.html", name=name)
 
+#task 4
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+#task 5
+@app.route("/profile")
+def profile():
+    user = {
+        "name": "RDH",
+        "age": 25,
+        "hobby": "coding"
+    }
+    return render_template("profile.html", user=user)
+
 if __name__ == "__main__":
     app.run(debug=True)
