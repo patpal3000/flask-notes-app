@@ -37,5 +37,12 @@ def profile():
     }
     return render_template("profile.html", user=user)
 
+#task 6
+@app.route("/feedback", methods=["GET", "POST"])
+def feedback():
+    if request.method == "POST":
+        message = request.form["message"]
+        return render_template("feedback.html", respone=message)
+
 if __name__ == "__main__":
     app.run(debug=True)
