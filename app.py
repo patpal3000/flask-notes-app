@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
@@ -53,7 +53,13 @@ def notes_page():
         note = request.form["note"]
         notes.append(note)
     return render_template("notes.html", notes=notes)
-    
+
+#task 8
+@app.route("/delete/<int:index>")
+def delete(index):
+    if 0 <= index < len(notes):
+        notes.pop(index)
+    return redirect("/notes")
 
 if __name__ == "__main__":
     app.run(debug=True)
