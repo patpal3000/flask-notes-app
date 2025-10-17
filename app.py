@@ -45,5 +45,15 @@ def feedback():
         return render_template("feedback.html", respone=message)
     return render_template("feedback.html", respone=None)
 
+#task 7
+notes = []
+@app.route("/notes", methods=["GET", "POST"])
+def notes_page():
+    if request.method == "POST":
+        note = request.form["note"]
+        notes.append(note)
+    return render_template("notes.html", notes=notes)
+    
+
 if __name__ == "__main__":
     app.run(debug=True)

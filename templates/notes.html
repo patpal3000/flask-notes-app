@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Notes</title>
+    </head>
+    <body>
+        <!-- Task 7 -->
+        <h1>Notes</h1>
+        <form method="POST">
+            <input name="note" placeholder="Tell Me What you thought">
+            <button type="submit">Add</button>
+        </form>
+
+        <ul>
+            {% for note in notes %}
+                <li>{{ note }}</li>
+            {% endfor %}
+        </ul>
+
+        <a href="/">home</a>
+    </body>
+</html>
