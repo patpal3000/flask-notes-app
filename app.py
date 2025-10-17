@@ -46,7 +46,7 @@ def feedback():
         return render_template("feedback.html", respone=message)
     return render_template("feedback.html", respone=None)
 
-#task 10
+#task 10 read and update
 def load_notes():
     if os.path.exists("data.json"):
         with open("data.json", "r") as f:
@@ -57,7 +57,7 @@ def save_notes(notes):
     with open("data.json", "w") as f:
         json.dump(notes, f, indent=2)
 
-#task 7
+#task 7 create
 notes = []
 @app.route("/notes", methods=["GET", "POST"])
 def notes_page():
@@ -71,7 +71,7 @@ def notes_page():
             save_notes(notes)
     return render_template("notes.html", notes=notes)
 
-#task 8
+#task 8 delete
 @app.route("/delete/<int:index>")
 def delete(index):
     notes = load_notes() #task 10
@@ -80,7 +80,7 @@ def delete(index):
         save_notes(notes) #task 10
     return redirect("/notes")
 
-#task 11
+#task 11 update
 @app.route("/edit/<int:index>", methods=["GET", "POST"])
 def edit(index):
     notes = load_notes()

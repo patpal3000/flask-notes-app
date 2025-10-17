@@ -17,6 +17,7 @@
             {% for note in notes %}
                 <li>{{ note }}
                     <a href="/delete/{{ loop.index0 }}">X</a>
+                    <a href="/edit/{{ loop.index0 }}">EDIT</a>
                 </li>
             {% endfor %}
         </ul>
