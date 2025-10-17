@@ -1,15 +1,60 @@
 /* Task 9 */
+nav a { 
+                margin: 0 50px; 
+                color: white;
+                text-decoration: none;
+            }
 
-body {
-    background-color: gray;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
-}
+            nav a:hover {
+                text-decoration: underline;
+            }
 
-button:hover {
-    color: black;
-    transform: scale(1.5);
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease, color 0.2s ease;
-}
+            nav {
+                padding: 10px;
+                background-color: green;
+            }
+            
+            body {
+                text-align: center;
+            }
+
+            button:hover {
+                color: rgb(76, 0, 255);
+                transform: scale(1.2);
+                text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+                transition: transform 0.2s ease, color 0.2s ease;
+            }
+
+           @media (max-width: 600px) {
+                body {
+                    text-align: center;
+                }
+
+                nav a { 
+                    margin: 0 50px; 
+                    color: white;
+                    text-decoration: none;
+                }
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+
+            }
+
+
+            footer a { 
+                margin: 0 50px; 
+                color: white;
+                text-decoration: none;
+            }
+
+            .container {
+                max-width: 900px;
+                margin: auto;
+                padding: 20px;
+                background-color: #fafafa;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+            }

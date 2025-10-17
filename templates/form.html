@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Form Name</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    <body>
+{% extends "base.html" %}
+        {% block title %}Form Name{% endblock %}
+{% block content %}
         <!-- Task 3 -->
         <form method="POST" action="/submit">
             <input name="username" placeholder="Your name">
             <button type="submit">Send</button>
         </form>
-    </body>
-</html>
+{% endblock %}

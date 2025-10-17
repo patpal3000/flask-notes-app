@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Profile</title>
-    </head>
-    <body>
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
         <!-- Task 5 -->
         <h1>{{ user.name }}'s Profile</h1>
         <p>Age: {{ user.age }}</p>
         <p>Hobby: {{ user.hobby }}</p>
         <a href="/">Home</a>
-    </body>
-</html>
+{% endblock %}

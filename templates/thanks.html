@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Flask Starter</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    <body>
+{% extends "base.html" %}
+{% block title %}Flask Starter{% endblock %}
+{% block content %}
         <!-- Task 3 -->
         <h2>Thanks for joining, {{ name }}!</h2>
         <a href="/">Go Home</a>
-    </body>
-</html>
+{% endblock %}

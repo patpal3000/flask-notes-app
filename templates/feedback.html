@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Feedback Form</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    <body>
+{% extends "base.html" %}
+        {% block title %}Feedback Form{% endblock %}
+{% block content %}
         <!-- Task 6 -->
         <h1>feedback form</h1>
         <form method="POST">
@@ -17,5 +12,4 @@
         <p> your feedback: {{ respone }}</p>
         {% endif %}
         <a href="/">home</a>
-    </body>
-</html>
+{% endblock %}

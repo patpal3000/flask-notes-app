@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>About</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    <body>
+{% extends "base.html" %}
+        {% block title %}About{% endblock %}
+{% block content %}
         <!-- Task 4 -->
          <h1>About Page</h1>
         <p>This is a simple a second page!</p>
         <a href="/">Go Home</a>
-    </body>
-</html>
+    {% endblock %}
