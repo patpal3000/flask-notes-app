@@ -58,3 +58,16 @@ nav a {
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
                 border-radius: 10px;
             }
+
+.flash-container {
+    margin: 10px 0;
+}
+
+.flash {
+    background-color: #e0ffe0;
+    border: 1px solid #00aa00;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #004400;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}

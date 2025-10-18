@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 import json, os
 
 app = Flask(__name__)
+app.secret_key = "notme123" #task 14 - flash message
 
 #task 1
 @app.route("/")
@@ -50,7 +51,10 @@ def feedback():
 def load_notes():
     if os.path.exists("data.json"):
         with open("data.json", "r") as f:
-            return json.load(f)
+            try:
+                return json.load(f)
+            except json.JSONDecodeError: #prevent json file empty error/just add [] on json
+                return[]
     return []
 
 def save_notes(notes):
@@ -70,6 +74,7 @@ def notes_page():
         if note.strip():
             notes.append(note)
             save_notes(notes)
+            flash("✅ Note added successfully!") #task 14
 
     # task 13 handle search query
     query = request.args.get("q", "").lower()
@@ -85,6 +90,7 @@ def delete(index):
     if 0 <= index < len(notes):
         notes.pop(index)
         save_notes(notes) #task 10
+        flash("🗑️ Note delet!") #task 14
     return redirect("/notes")
 
 #task 11 update
@@ -95,6 +101,7 @@ def edit(index):
         new_text = request.form["note"]
         notes[index] = new_text
         save_notes(notes)
+        flash("✏️ Notes updated")
         return redirect("/notes")
     return render_template("edit.html", note=notes[index])
 

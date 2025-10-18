@@ -16,6 +16,16 @@
             </nav>
         </header>
 
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for message in messages %}
+                        <p class="flash">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <main>
             {% block content %}
             <!-- All Content is here -->

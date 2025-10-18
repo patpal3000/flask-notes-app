@@ -12,17 +12,22 @@
         <form method="GET" style="margin-top: 10px;">
             <input name="q" placeholder="Search notes..." value="{{ query }}">
             <button type="submit">Search</button>
+            <a href="/notes">Clear</a> <!-- delete current type search-->
         </form>
 
         <!-- Displaying Notes-->
-        <ul>
-            {% for note in notes %}
-                <li>{{ note }}
-                    <a href="/delete/{{ loop.index0 }}">X</a>
-                    <a href="/edit/{{ loop.index0 }}">EDIT</a>
-                </li>
-            {% endfor %}
-        </ul>
+        {% if notes %}
+            <ul>
+                {% for note in notes %}
+                    <li>{{ note }}
+                        <a href="/delete/{{ loop.index0 }}">X</a>
+                        <a href="/edit/{{ loop.index0 }}">EDIT</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No notes found.</p> <!-- show this when no matching find-->
+        {% endif %}
 
         <a href="/">home</a>
 {% endblock %}
