@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 {% block title %}Notes{% endblock %}
 {% block content %}
-        <!-- Task 7 -->
+        <!-- Task 7 - add form -->
         <h1>Notes</h1>
         <form method="POST">
             <input name="note" placeholder="Tell Me What you thought">
             <button type="submit">Add</button>
         </form>
 
+        <!-- Task 13 -  -->
+        <form method="GET" style="margin-top: 10px;">
+            <input name="q" placeholder="Search notes..." value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Displaying Notes-->
         <ul>
             {% for note in notes %}
                 <li>{{ note }}

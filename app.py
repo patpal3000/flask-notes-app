@@ -63,13 +63,20 @@ notes = []
 def notes_page():
     notes = load_notes() #task 10
 
+    # add new note
     if request.method == "POST":
         note = request.form["note"]
         #notes.append(note)
         if note.strip():
             notes.append(note)
             save_notes(notes)
-    return render_template("notes.html", notes=notes)
+
+    # task 13 handle search query
+    query = request.args.get("q", "").lower()
+    if query:
+        notes = [n for n in notes if query in n.lower()]
+
+    return render_template("notes.html", notes=notes, query=query)
 
 #task 8 delete
 @app.route("/delete/<int:index>")
