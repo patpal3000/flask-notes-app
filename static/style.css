@@ -70,4 +70,14 @@ nav a {
     border-radius: 5px;
     color: #004400;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+    /* the animation */
+    opacity: 1;
+    animation: fadeOut 1s ease-in forwards;
+    animation-delay: 3s;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; visibility: hidden; }
 }
