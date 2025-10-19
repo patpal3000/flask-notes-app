@@ -1,63 +1,78 @@
 /* Task 9 */
 nav a { 
-                margin: 0 50px; 
-                color: white;
-                text-decoration: none;
-            }
+    margin: 0 8px; 
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
 
-            nav a:hover {
-                text-decoration: underline;
-            }
+nav a:hover {
+    text-decoration: underline;
+}
 
-            nav {
-                padding: 10px;
-                background-color: green;
-            }
-            
-            body {
-                text-align: center;
-            }
+nav {
+    padding: 10px;
+    background-color: rgb(187, 241, 187);
+}
 
-            button:hover {
-                color: rgb(76, 0, 255);
-                transform: scale(1.2);
-                text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-                transition: transform 0.2s ease, color 0.2s ease;
-            }
+body {
+    text-align: center;
+}
 
-           @media (max-width: 600px) {
-                body {
-                    text-align: center;
-                }
+button:hover {
+    color: rgb(76, 0, 255);
+    transform: scale(1.2);
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, color 0.2s ease;
+}
 
-                nav a { 
-                    margin: 0 50px; 
-                    color: white;
-                    text-decoration: none;
-                }
+header, footer {
+    text-align: center;
+    padding: 10px 0;
+}
 
-                img {
-                    width: 100%;
-                    height: auto;
-                }
+header h1 {
+    margin-bottom: 5px;
+}
 
-            }
+footer p {
+    color: #888;
+    font-size: 0.9em;
+}
+
+@media (max-width: 600px) {
+    body {
+        text-align: center;
+    }
+
+    nav a { 
+        margin: 0 50px; 
+        color: white;
+        text-decoration: none;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+}
 
 
-            footer a { 
-                margin: 0 50px; 
-                color: white;
-                text-decoration: none;
-            }
+footer a { 
+    margin: 0 50px; 
+    color: white;
+    text-decoration: none;
+}
 
-            .container {
-                max-width: 900px;
-                margin: auto;
-                padding: 20px;
-                background-color: #fafafa;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-                border-radius: 10px;
-            }
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fafafa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
 
 .flash-container {
     margin: 10px 0;
@@ -80,4 +95,42 @@ nav a {
 @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; visibility: hidden; }
+}
+
+/* --- Home Polish --- */
+.home {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.home h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.home p {
+    color: #555;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+.home-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
 }

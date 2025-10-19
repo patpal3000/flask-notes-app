@@ -3,12 +3,14 @@
         {% block title %}Flask Starter{% endblock %}
 
         {% block content %}
-        <!-- Task 1 -->
-        <h1>Hello, Flask!</h1>
-        <a href="/greet/ridho">task 2 - greet</a>
-        <a href="/form">task 3 - form</a>
-        <a href="/about">task 4 - About me</a>
-        <a href="/profile">task 5 - profile</a>
-        <a href="/feedback">task 6 - feedback</a>
-        <a href="/notes">task 7 - notes</a>
+        <section class="home">
+                <h2>Welcome to the Flask Notes App</h2>
+                <p>This simple web app lets you add, edit, delete, and search notes - built with Flask as a learning project.</p>
+
+                <div class="home-links">
+                        <a href="/notes" class="btn">📝 Notes</a>
+                        <a href="/about" class="btn">ℹ️ About</a>
+                        <a href="/feedback" class="btn">💬 Feedback</a>
+                </div>
+        </section>
         {% endblock %}
