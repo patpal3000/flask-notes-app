@@ -67,25 +67,8 @@ def feedback():
     return render_template("feedback.html", respone=None)
 
 #----------------------------------------------------------------
-#task 10 read and update
-#----------------------------------------------------------------
-def load_notes():
-    if os.path.exists("data.json"):
-        with open("data.json", "r") as f:
-            try:
-                return json.load(f)
-            except json.JSONDecodeError: #prevent json file empty error/just add [] on json
-                return[]
-    return []
-
-def save_notes(notes):
-    with open("data.json", "w") as f:
-        json.dump(notes, f, indent=2)
-
-#----------------------------------------------------------------
 #task 7 create
 #----------------------------------------------------------------
-notes = []
 @app.route("/notes", methods=["GET", "POST"])
 def notes_page():
     # add new note
@@ -97,12 +80,16 @@ def notes_page():
             db.session.commit()
             flash("✅ Note added successfully!") #task 14
 
+    notes = Note.query.all()
+
     # task 13 handle search query
     query = request.args.get("q", "").lower()
     if query:
-        notes = [n for n in notes if query in n.lower()]
-        
-    notes = Note.query.all()
+        notes = Note.query.filter(Note.text.ilike(f"%{query}%")).all()
+    else:
+        notes = Note.query.all()
+
+    
     return render_template("notes.html", notes=notes, query=query)
 
 #----------------------------------------------------------------
