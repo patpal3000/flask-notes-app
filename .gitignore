@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Flask / SQLAlchemy
+instance/
+*.db
+
+# Environment files
+.env
+venv/
+.env.bak
+.env.local
+
+# IDE and system junk
+.vscode/
+.idea/
+.DS_Store
