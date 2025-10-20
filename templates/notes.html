@@ -19,9 +19,9 @@
         {% if notes %}
             <ul>
                 {% for note in notes %}
-                    <li>{{ note }}
-                        <a href="/delete/{{ loop.index0 }}">X</a>
-                        <a href="/edit/{{ loop.index0 }}">EDIT</a>
+                    <li>{{ note.text }}
+                        <a href="/delete/{{ note.id }}">X</a>
+                        <a href="/edit/{{ note.id }}">EDIT</a>
                     </li>
                 {% endfor %}
             </ul>

@@ -1,20 +1,33 @@
 from flask import Flask, render_template, request, redirect, flash
+from flask_sqlalchemy import SQLAlchemy #task 16
 import json, os
 
 app = Flask(__name__)
 app.secret_key = "notme123" #task 14 - flash message
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db' #task16
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-#task 1
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(300), nullable=False)
+#----------------------------------------------------------------
+# task 1
+#----------------------------------------------------------------
 @app.route("/")
 def home():
     return render_template("index.html")
 
+#----------------------------------------------------------------
 #task 2
+#----------------------------------------------------------------
 @app.route("/greet/<name>")
 def greet(name):
     return render_template("greet.html", user=name)
 
+#----------------------------------------------------------------
 #task 3
+#----------------------------------------------------------------
 @app.route("/form")
 def form():
     return render_template("form.html")
@@ -24,12 +37,16 @@ def submit():
     name = request.form["username"]
     return render_template("thanks.html", name=name)
 
+#----------------------------------------------------------------
 #task 4
+#----------------------------------------------------------------
 @app.route("/about")
 def about():
     return render_template("about.html")
 
+#----------------------------------------------------------------
 #task 5
+#----------------------------------------------------------------
 @app.route("/profile")
 def profile():
     user = {
@@ -39,7 +56,9 @@ def profile():
     }
     return render_template("profile.html", user=user)
 
+#----------------------------------------------------------------
 #task 6
+#----------------------------------------------------------------
 @app.route("/feedback", methods=["GET", "POST"])
 def feedback():
     if request.method == "POST":
@@ -47,7 +66,9 @@ def feedback():
         return render_template("feedback.html", respone=message)
     return render_template("feedback.html", respone=None)
 
+#----------------------------------------------------------------
 #task 10 read and update
+#----------------------------------------------------------------
 def load_notes():
     if os.path.exists("data.json"):
         with open("data.json", "r") as f:
@@ -61,49 +82,52 @@ def save_notes(notes):
     with open("data.json", "w") as f:
         json.dump(notes, f, indent=2)
 
+#----------------------------------------------------------------
 #task 7 create
+#----------------------------------------------------------------
 notes = []
 @app.route("/notes", methods=["GET", "POST"])
 def notes_page():
-    notes = load_notes() #task 10
-
     # add new note
     if request.method == "POST":
         note = request.form["note"]
-        #notes.append(note)
         if note.strip():
-            notes.append(note)
-            save_notes(notes)
+            new_note = Note(text=note)
+            db.session.add(new_note)
+            db.session.commit()
             flash("✅ Note added successfully!") #task 14
 
     # task 13 handle search query
     query = request.args.get("q", "").lower()
     if query:
         notes = [n for n in notes if query in n.lower()]
-
+        
+    notes = Note.query.all()
     return render_template("notes.html", notes=notes, query=query)
 
+#----------------------------------------------------------------
 #task 8 delete
-@app.route("/delete/<int:index>")
-def delete(index):
-    notes = load_notes() #task 10
-    if 0 <= index < len(notes):
-        notes.pop(index)
-        save_notes(notes) #task 10
-        flash("🗑️ Note delet!") #task 14
+#----------------------------------------------------------------
+@app.route("/delete/<int:id>")
+def delete(id):
+    note = Note.query.get_or_404(id)
+    db.session.delete(note)
+    db.session.commit()
+    flash("🗑️ Note delete!") #task 14
     return redirect("/notes")
 
-#task 11 update
-@app.route("/edit/<int:index>", methods=["GET", "POST"])
-def edit(index):
-    notes = load_notes()
+#----------------------------------------------------------------
+#task 11 edit
+#----------------------------------------------------------------
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit(id):
+    note = Note.query.get_or_404(id)
     if request.method == "POST":
-        new_text = request.form["note"]
-        notes[index] = new_text
-        save_notes(notes)
+        note.text = request.form["note"]
+        db.session.commit()
         flash("✏️ Notes updated")
         return redirect("/notes")
-    return render_template("edit.html", note=notes[index])
+    return render_template("edit.html", note=note.text)
 
 if __name__ == "__main__":
     app.run(debug=True)
