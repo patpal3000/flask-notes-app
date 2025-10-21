@@ -99,18 +99,8 @@ def notes_page():
     if query:
         notes = Note.query.filter(Note.user_id==user_id, Note.text.ilike(f"%{query}%")).all()
     else:
-        notes = Note.query.filter_by(user_id==user_id).all()
+        notes = Note.query.filter_by(user_id=user_id).all()
 
-    return render_template("notes.html", notes=notes, query=query)
-
-    # task 13 handle search query
-    query = request.args.get("q", "").lower()
-    if query:
-        notes = Note.query.filter(Note.text.ilike(f"%{query}%")).all()
-    else:
-        notes = Note.query.all()
-
-    
     return render_template("notes.html", notes=notes, query=query)
 
 @app.route("/delete/<int:id>")
