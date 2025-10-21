@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy #task 16\
 from werkzeug.security import generate_password_hash, check_password_hash
-import json, os
 
 app = Flask(__name__)
 app.secret_key = "notme123" #task 14 - flash message
@@ -106,6 +105,11 @@ def notes_page():
 @app.route("/delete/<int:id>")
 def delete(id):
     note = Note.query.get_or_404(id)
+
+    if note.user_id != session.get("user_id"):
+        flash("❌ Not allowed")
+        return redirect("notes")
+    
     db.session.delete(note)
     db.session.commit()
     flash("🗑️ Note delete!") #task 14
@@ -116,6 +120,9 @@ def edit(id):
     note = Note.query.get_or_404(id)
     if request.method == "POST":
         note.text = request.form["note"]
+        if note.user_id != session.get("user_id"):
+            flash("❌ Not allowed")
+            return redirect("notes")
         db.session.commit()
         flash("✏️ Notes updated")
         return redirect("/notes")
@@ -130,6 +137,14 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
 
+        if User.query.filter_by(username=username).first():
+            flash("❌ Username already taken")
+            return redirect("/register")
+        
+        if not username.strip() or len(password) < 4:
+            flash("❌ Provide a username and password (min 4 chars).")
+            return redirect("/register")
+        
         hashed = generate_password_hash(password)
         user = User(username=username, password=hashed)
         db.session.add(user)
