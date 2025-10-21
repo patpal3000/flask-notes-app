@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, flash
-from flask_sqlalchemy import SQLAlchemy #task 16
+from flask import Flask, render_template, request, redirect, flash, session
+from flask_sqlalchemy import SQLAlchemy #task 16\
+from werkzeug.security import generate_password_hash, check_password_hash
 import json, os
 
 app = Flask(__name__)
@@ -8,9 +9,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db' #task16
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+class User(db.Model): #task 19
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    notes = db.relationship('Note', backref='owner', lazy=True)
+
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(300), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
 #----------------------------------------------------------------
 # task 1
 #----------------------------------------------------------------
