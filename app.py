@@ -76,20 +76,32 @@ def feedback():
     return render_template("feedback.html", respone=None)
 
 #----------------------------------------------------------------
-#task 7 create
+#task 7 NOTES
 #----------------------------------------------------------------
 @app.route("/notes", methods=["GET", "POST"])
 def notes_page():
+    #task 21 user logic
+    if "user_id" not in session:
+        flash("⚠️ Please log in first.")
+        return redirect("/login")
+    
+    user_id = session["user_id"]
+    
     # add new note
     if request.method == "POST":
         note = request.form["note"]
         if note.strip():
-            new_note = Note(text=note)
+            new_note = Note(text=note, user_id=user_id)
             db.session.add(new_note)
             db.session.commit()
             flash("✅ Note added successfully!") #task 14
+    query = request.args.get("q", "").lower()
+    if query:
+        notes = Note.query.filter(Note.user_id==user_id, Note.text.ilike(f"%{query}%")).all()
+    else:
+        notes = Note.query.filter_by(user_id==user_id).all()
 
-    notes = Note.query.all()
+    return render_template("notes.html", notes=notes, query=query)
 
     # task 13 handle search query
     query = request.args.get("q", "").lower()
@@ -101,9 +113,6 @@ def notes_page():
     
     return render_template("notes.html", notes=notes, query=query)
 
-#----------------------------------------------------------------
-#task 8 delete
-#----------------------------------------------------------------
 @app.route("/delete/<int:id>")
 def delete(id):
     note = Note.query.get_or_404(id)
@@ -112,9 +121,6 @@ def delete(id):
     flash("🗑️ Note delete!") #task 14
     return redirect("/notes")
 
-#----------------------------------------------------------------
-#task 11 edit
-#----------------------------------------------------------------
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit(id):
     note = Note.query.get_or_404(id)
