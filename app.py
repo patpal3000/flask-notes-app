@@ -125,6 +125,43 @@ def edit(id):
         return redirect("/notes")
     return render_template("edit.html", note=note.text)
 
+#----------------------------------------------------------------
+#task 20 user login route
+#----------------------------------------------------------------
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        hashed = generate_password_hash(password)
+        user = User(username=username, password=hashed)
+        db.session.add(user)
+        db.session.commit()
+        flash("✅ Registered successfully!")
+        return redirect("/login")
+    return render_template("register.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        user = User.query.filter_by(username=username).first()
+        if user and check_password_hash(user.password, password):
+            session["user_id"] = user.id
+            flash("🔓 Logged in!")
+            return redirect("/notes")
+        flash("❌ Invalid credentials")
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("user_id", None)
+    flash("👋 Logged out.")
+    return redirect("/")
+
 if __name__ == "__main__":
     app.run(debug=True)
 
