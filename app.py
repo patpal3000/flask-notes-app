@@ -171,6 +171,49 @@ def profile():
     note_count = Note.query.filter_by(user_id=user.id).count()
     return render_template("profile.html", user=user, note_count=note_count)
 
+@app.route("/change_password", methods=["GET", "POST"])
+def change_password():
+    if "user_id" not in session:
+        flash("⚠️ Please log in first.")
+        return redirect("/login")
+    
+    user = User.query.get(session["user_id"])
+
+    if request.method == "POST":
+        old = request.form["old_password"]
+        new = request.form["new_password"]
+
+        if not check_password_hash(user.password, old):
+            flash("❌ Old password incorrect.")
+        elif len(new) < 4:
+            flash("⚠️ New password too short (min 4 chars).")
+        else:
+            user.password = generate_password_hash(new)
+            db.session.commit()
+            flash("🔒 Password updated successfully!")
+            return redirect("/profile")
+    
+    return render_template("change_password.html")
+
+@app.route("/delete_account", methods=["POST"])
+def delete_account():
+    if "user_id" not in session:
+        flash("⚠️ Please log in first.")
+        return redirect("/login")
+    
+    user = User.query.get(session["user_id"])
+
+    # Delete all note first
+    Note.query.filter_by(user_id=user.id).delete()
+
+    # Delete user
+    db.session.delete(user)
+    db.session.commit()
+
+    session.pop("user_id", None)
+    flash("🗑️ Account deleted permanently.")
+    return redirect("/")
+
 if __name__ == "__main__":
     app.run(debug=True)
 
