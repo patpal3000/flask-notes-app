@@ -81,14 +81,24 @@ def notes_page():
             new_note = Note(text=note, user_id=user_id)
             db.session.add(new_note)
             db.session.commit()
-            flash("✅ Note added successfully!") #task 14
-    query = request.args.get("q", "").lower()
-    if query:
-        notes = Note.query.filter(Note.user_id==user_id, Note.text.ilike(f"%{query}%")).all()
-    else:
-        notes = Note.query.filter_by(user_id=user_id).all()
+            flash("✅ Note added successfully!")
 
-    return render_template("notes.html", notes=notes, query=query)
+    # pagination setup
+    page = request.args.get("page", 1, type=int)
+    query = request.args.get("q", "").strip().lower()
+
+    # base query for this user
+    base_query = Note.query.filter_by(user_id=user_id)
+
+    # optional search
+    if query:
+        base_query = base_query.filter(Note.text.ilike(f"%{query}%"))
+
+    # paginate: 5 notes per page
+    pagination = base_query.order_by(Note.id.desc()).paginate(page=page, per_page=5)
+    notes = pagination.items
+
+    return render_template("notes.html", notes=notes, pagination=pagination, query=query)
 
 @app.route("/delete/<int:id>")
 def delete(id):
