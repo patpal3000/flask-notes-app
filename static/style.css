@@ -134,3 +134,12 @@ footer a {
 .btn:hover {
     background-color: #0056b3;
 }
+
+.card {
+    background: #fff;
+    padding: 1em 2em;
+    margin: 1.5em auto;
+    max-width: 400px;
+    border-radius: 1em;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}

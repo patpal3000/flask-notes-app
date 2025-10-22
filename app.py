@@ -53,18 +53,6 @@ def about():
     return render_template("about.html")
 
 #----------------------------------------------------------------
-#task 5
-#----------------------------------------------------------------
-@app.route("/profile")
-def profile():
-    user = {
-        "name": "RDH",
-        "age": 25,
-        "hobby": "coding"
-    }
-    return render_template("profile.html", user=user)
-
-#----------------------------------------------------------------
 #task 6
 #----------------------------------------------------------------
 @app.route("/feedback", methods=["GET", "POST"])
@@ -172,6 +160,16 @@ def logout():
     session.pop("user_id", None)
     flash("👋 Logged out.")
     return redirect("/")
+
+@app.route("/profile")
+def profile():
+    if "user_id" not in session:
+        flash("⚠️ Please log in first.")
+        return redirect("/login")
+    
+    user = User.query.get(session["user_id"])
+    note_count = Note.query.filter_by(user_id=user.id).count()
+    return render_template("profile.html", user=user, note_count=note_count)
 
 if __name__ == "__main__":
     app.run(debug=True)

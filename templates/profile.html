@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-        <!-- Task 5 -->
-        <h1>{{ user.name }}'s Profile</h1>
-        <p>Age: {{ user.age }}</p>
-        <p>Hobby: {{ user.hobby }}</p>
-        <a href="/">Home</a>
+        <!-- Task 22 -->
+        <div class="card">
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Total Notes:</strong> {{ note_count }}</p>
+                <a href="/notes">📓 View My Notes</a>
+        </div>
 {% endblock %}
