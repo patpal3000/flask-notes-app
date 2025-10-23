@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy #task 16\
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
-app.secret_key = "notme123" #task 14 - flash message
+app.secret_key = os.getenv("SECRET_KEY", "devkey")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db' #task16
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -106,7 +107,7 @@ def delete(id):
 
     if note.user_id != session.get("user_id"):
         flash("❌ Not allowed")
-        return redirect("notes")
+        return redirect("/notes")
     
     db.session.delete(note)
     db.session.commit()
@@ -120,7 +121,7 @@ def edit(id):
         note.text = request.form["note"]
         if note.user_id != session.get("user_id"):
             flash("❌ Not allowed")
-            return redirect("notes")
+            return redirect("/notes")
         db.session.commit()
         flash("✏️ Notes updated")
         return redirect("/notes")
