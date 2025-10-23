@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, flash, session
+from flask import Flask, render_template, request, redirect, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy #task 16\
 from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
 import os
 
 app = Flask(__name__)
@@ -224,6 +225,25 @@ def delete_account():
     session.pop("user_id", None)
     flash("🗑️ Account deleted permanently.")
     return redirect("/")
+
+#----------------------------------------------------------------
+#task 26 - GET all notes (API)
+#----------------------------------------------------------------
+def login_required_json(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if "user_id" not in session:
+            return jsonify({"error": "Unauthorized"}), 401
+        return f(*args, **kwargs)
+    return decorated
+
+@app.route("/api/notes", methods=["GET"])
+@login_required_json
+def api_get_notes():
+    user_id = session["user_id"]
+    notes = Note.query.filter_by(user_id=user_id).order_by(Note.id.desc()).all()
+    data = [{"id": n.id, "text": n.text} for n in notes]
+    return jsonify({"notes": data, "count": len(data)})
 
 if __name__ == "__main__":
     app.run(debug=True)
