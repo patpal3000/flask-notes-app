@@ -245,6 +245,29 @@ def api_get_notes():
     data = [{"id": n.id, "text": n.text} for n in notes]
     return jsonify({"notes": data, "count": len(data)})
 
+#----------------------------------------------------------------
+#task 27 - POST new note (API)
+#----------------------------------------------------------------
+@app.route("/api/notes", methods=["POST"])
+@login_required_json
+def api_add_note():
+    user_id = session["user_id"]
+    data = request.get_json(silent=True)
+
+    # validate JSON structure
+    if not data or "text" not in data or not data["text"].strip():
+        return jsonify({"error": "Invalid data"}), 400
+    
+    # create new note
+    new_note = Note(text=data["text"].strip(), user_id=user_id)
+    db.session.add(new_note)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Note created successfully",
+        "note": {"id": new_note.id, "text": new_note.text}
+    }), 201
+
 if __name__ == "__main__":
     app.run(debug=True)
 
