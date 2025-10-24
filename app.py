@@ -268,6 +268,50 @@ def api_add_note():
         "note": {"id": new_note.id, "text": new_note.text}
     }), 201
 
+#----------------------------------------------------------------
+#task 28 - Edit note via json (API)
+#----------------------------------------------------------------
+@app.route("/api/notes/<int:note_id>", methods=["PUT"])
+@login_required_json
+def api_update_note(note_id):
+    user_id = session["user_id"]
+    data = request.get_json(silent=True)
+
+    if not data or "text" not in data or not data["text"].strip():
+        return jsonify({"error": "Invalid data"}), 400
+    
+    note = Note.query.get_or_404(note_id)
+    if note.user_id != user_id:
+        return jsonify({"error": "Forbidden"}), 403
+    
+    note.text = data["text"].strip()
+    db.session.commit()
+
+    return jsonify({
+        "message": "Note updated successfully",
+        "note": {"id": note.id, "text": note.text}
+    }), 200
+
+#----------------------------------------------------------------
+#task 29 - Delete note via json (API)
+#----------------------------------------------------------------
+@app.route("/api/notes/<int:note_id>", methods=["DELETE"])
+@login_required_json
+def api_delete_note(note_id):
+    user_id = session["user_id"]
+    note = Note.query.get(note_id)
+
+    if not note:
+        return jsonify({"error": "Note not found"}), 404
+
+    if note.user_id != user_id:
+        return jsonify({"error": "Forbidden"}), 403
+    
+    db.session.delete(note)
+    db.session.commit()
+
+    return jsonify({"message": f"Note {note_id} deleted successfully"}), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
 
