@@ -293,7 +293,7 @@ def api_update_note(note_id):
     }), 200
 
 #----------------------------------------------------------------
-#task 29 - Delete note via json (API)
+#task 29 - Delete note via json (API) 
 #----------------------------------------------------------------
 @app.route("/api/notes/<int:note_id>", methods=["DELETE"])
 @login_required_json
